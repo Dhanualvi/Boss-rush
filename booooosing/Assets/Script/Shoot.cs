@@ -8,16 +8,25 @@ public class Shoot : MonoBehaviour
     private Camera mainCam;
     private Vector3 mousePos;
     [SerializeField] GameObject bullet;
+    [SerializeField] GameObject shield;
     [SerializeField] Transform bulletPoint;
+    //[SerializeField] Transform shieldPoint;
     bool canShoot;
+    bool canShield;
+    bool isShielded;
     [SerializeField] float fireRate = 1f;
+    [SerializeField] float shieldCD = 3f;
+    [SerializeField] float shieldUptime = 2f;
     //[SerializeField] Transform bossLocation;
 
 
     void Start()
     {
         canShoot = true;
+        canShield = true;
+        isShielded = false;
         mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        shield.SetActive(false);
     }
 
     // Update is called once per frame
@@ -32,12 +41,22 @@ public class Shoot : MonoBehaviour
     void OnFire(InputValue value)
     {
 
-        if (value.isPressed && canShoot)
+        if (value.isPressed && canShoot && !isShielded)
         {
             StartCoroutine(AttackSpeed());
             Instantiate(bullet, bulletPoint.position, transform.rotation);
         }
     }
+
+    void OnShield(InputValue value)
+    {
+        if(value.isPressed && canShield)
+        {
+            StartCoroutine(ShieldCooldown());
+            StartCoroutine(ShieldDuration());
+        }
+    }
+
     IEnumerator AttackSpeed()
     {
         if (canShoot)
@@ -47,4 +66,26 @@ public class Shoot : MonoBehaviour
             canShoot = true;
         }
     }
+    IEnumerator ShieldCooldown()
+    {
+        if (canShoot)
+        {
+            canShield = false;
+            yield return new WaitForSeconds(shieldCD);
+            canShield = true;
+        }
+    }
+
+    IEnumerator ShieldDuration()
+    {
+        if (!isShielded)
+        {
+            shield.SetActive(true);
+            isShielded = true;
+            yield return new WaitForSeconds(shieldUptime);
+            shield.SetActive(false);
+            isShielded = false;
+        }
+    }
+
 }
