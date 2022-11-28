@@ -11,20 +11,25 @@ public class BossAttack : MonoBehaviour
     //[SerializeField] float startAngle = 90f, endAngle = 270f;
 
     [SerializeField] float angle = 0f;
-    [SerializeField] float angleInc = 10f;
+    [SerializeField] float angleTopInc = 10f;
+    [SerializeField] float angleBotInc = 10f;
     [SerializeField] float fireRate = 0.1f;
     [SerializeField] float fireRateInc = 0.02f;
     [SerializeField] bool reverse = false;
 
     bool patternOne;
     bool canShoot;
-    bool patternTwo;
+    [SerializeField] bool isAttacking;
+   // bool patternTwo;
     
-    private Vector2 bulletMoveDirection;
+    
+    //private Vector2 bulletMoveDirection;
     void Start()
     {
+       
         patternOne = true;
-        patternTwo = false;
+        isAttacking = false;
+        //patternTwo = false;
         canShoot = true;
     }
 
@@ -37,11 +42,17 @@ public class BossAttack : MonoBehaviour
         }
     }
 
+
+    float Randomize()
+    {
+        return Random.Range(angleBotInc, angleTopInc);
+    }
+
     IEnumerator AttackRate()
     {
-        if (canShoot)
+        if (canShoot && !isAttacking)
         {
-            SpiralFire(angleInc);
+            SpiralFire(Randomize());
             canShoot = false;
             yield return new WaitForSeconds(fireRate);
             if (fireRate > 0.1f)
@@ -52,6 +63,23 @@ public class BossAttack : MonoBehaviour
         }
         
 
+    }
+
+    public void Attacking()
+    {
+        Debug.Log("Attacking");
+        StartCoroutine(SetAttackState());   
+    }
+
+    
+    IEnumerator SetAttackState()
+    {
+        if (!isAttacking)
+        {
+            isAttacking = true;
+            yield return new WaitForSeconds(3.5f);
+            isAttacking = false;
+        }
     }
 
     void SpiralFire(float increment)
@@ -87,6 +115,11 @@ public class BossAttack : MonoBehaviour
                 angle = 0f;
             }
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        
     }
 
 }
