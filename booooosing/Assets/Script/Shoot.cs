@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,9 @@ public class Shoot : MonoBehaviour
     [SerializeField] GameObject shield;
     [SerializeField] Transform bulletPoint;
     //[SerializeField] Transform shieldPoint;
+
+    Rigidbody2D myRigidbody2D;
+
     bool canShoot;
     bool canShield;
     bool isShielded;
@@ -26,18 +30,27 @@ public class Shoot : MonoBehaviour
         canShield = true;
         isShielded = false;
         mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        myRigidbody2D = GetComponent<Rigidbody2D>();
         shield.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        
+        RotateAim();
+    }
+
+    void RotateAim()
+    {
+  
         mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
+        
         Vector3 rotation = mousePos - transform.position;
         float rotZ = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, rotZ);
     }
-
+   
     void OnFire(InputValue value)
     {
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDetector : MonoBehaviour
+public class PlayerDetectorTwo : MonoBehaviour
 {
     
     Boss boss;
@@ -21,7 +21,7 @@ public class PlayerDetector : MonoBehaviour
         {
             attackOne.Attacking();
             attackTwo.Attacking();
-            boss.BossAttack();
+            boss.BossAttackLeft();
         }
     }
 }

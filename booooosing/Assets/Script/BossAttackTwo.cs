@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossAttack : MonoBehaviour
+public class BossAttackTwo : MonoBehaviour
 {
     //[SerializeField] Transform rightGunPoint;
     //[SerializeField] Transform leftGunPoint;
@@ -39,7 +39,6 @@ public class BossAttack : MonoBehaviour
         
     }
 
-
     public void StartAttack()
     {
         if (patternOne)
@@ -47,7 +46,6 @@ public class BossAttack : MonoBehaviour
             StartCoroutine(AttackRate());
         }
     }
-
 
     float Randomize()
     {
@@ -129,4 +127,5 @@ public class BossAttack : MonoBehaviour
     }
 
     
+
 }
