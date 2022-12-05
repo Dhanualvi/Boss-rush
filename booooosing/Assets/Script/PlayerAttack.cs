@@ -7,16 +7,21 @@ public class PlayerAttack : MonoBehaviour
 {
     private int currentAttack = 0;
     private float timeSinceAttack = 0.0f;
-    [SerializeField] float attakSpeed = 0.5f;
+    bool isAttacking;
+
+    [SerializeField] float attackSpeed = 0.5f;
     Animator myAnimator;
     PlayerShield  shield;
     Player player;
+    [SerializeField] GameObject attackCollision;
 
     private void Start()
     {
         myAnimator = GetComponent<Animator>();
         shield = FindObjectOfType<PlayerShield>();
         player = FindObjectOfType<Player>();
+        
+        isAttacking = false;
     }
 
     private void Update()
@@ -29,9 +34,9 @@ public class PlayerAttack : MonoBehaviour
     void OnFire(InputValue value)
     {
         if (shield.GetShieldState()) { return; }
-        if(value.isPressed && timeSinceAttack > attakSpeed)
+        if(value.isPressed && timeSinceAttack > attackSpeed)
         {
-            player.SetSpeedToZero();
+            
             currentAttack++;
 
             // Loop back to one after third attack
@@ -44,9 +49,23 @@ public class PlayerAttack : MonoBehaviour
 
             // Call one of three attack animations "Attack1", "Attack2", "Attack3"
             myAnimator.SetTrigger("Attack" + currentAttack);
+            StartCoroutine(SetAttackingState());
 
             // Reset timer
             timeSinceAttack = 0.0f;
+        }
+        
+    }
+
+    IEnumerator SetAttackingState()
+    {
+        if(!isAttacking)
+        {
+            isAttacking = true;
+            attackCollision.SetActive(true);
+            yield return new WaitForSeconds(attackSpeed);
+            attackCollision.SetActive(false);
+            isAttacking = false;
         }
         
     }

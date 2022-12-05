@@ -9,6 +9,7 @@ public class Boss : MonoBehaviour
     BossAttack attackOne;
     BossAttackTwo attackTwo;
     bool canAttack;
+    bool secondPhase;
    
 
     private void Start()
@@ -16,13 +17,18 @@ public class Boss : MonoBehaviour
         attackOne = FindObjectOfType<BossAttack>();
         attackTwo = FindObjectOfType<BossAttackTwo>();
         canAttack = false;
+        secondPhase = false;
         animator = GetComponent<Animator>();
         StartCoroutine(SetShootingState());
     }
 
     private void Update()
     {
-        StartAttacking();
+        if (secondPhase)
+        {
+            StartAttacking();
+        }
+        ;
     }
 
     void StartAttacking()
