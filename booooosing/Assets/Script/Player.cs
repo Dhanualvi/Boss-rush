@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] float speed = 10f;
+    float tempSpeed;
+    
     //[SerializeField] float aspd = 1f;
     //[SerializeField] GameObject bullet;
     //[SerializeField] Transform gunPoint;
     [SerializeField] GameObject child;
     Animator myAnimator;
+    PlayerShield shield;
     bool isMoving;
 
     Vector2 rawIput;
@@ -19,8 +23,10 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        tempSpeed = speed;
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
+        shield = FindObjectOfType<PlayerShield>();
     }
 
     // Update is called once per frame
@@ -37,6 +43,14 @@ public class Player : MonoBehaviour
 
     void Run()
     {
+        if (shield.GetShieldState())
+        {
+            SetSpeedToZero();
+        }
+        else
+        {
+            SetSpeedToNormal();
+        }
         Vector2 playerVelocity = new Vector2(rawIput.x * speed, rawIput.y * speed);
         myRigidbody.velocity = playerVelocity;
 
@@ -67,7 +81,17 @@ public class Player : MonoBehaviour
         
     }
 
+    public bool GetMovingState()
+    {
+        return isMoving;
+    }
 
-
-
+    public void SetSpeedToZero()
+    {
+        speed = 0f;
+    }
+    public void SetSpeedToNormal()
+    {
+        speed = tempSpeed;
+    }
 }

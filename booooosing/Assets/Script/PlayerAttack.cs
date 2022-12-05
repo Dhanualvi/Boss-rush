@@ -7,11 +7,16 @@ public class PlayerAttack : MonoBehaviour
 {
     private int currentAttack = 0;
     private float timeSinceAttack = 0.0f;
+    [SerializeField] float attakSpeed = 0.5f;
     Animator myAnimator;
+    PlayerShield  shield;
+    Player player;
 
     private void Start()
     {
         myAnimator = GetComponent<Animator>();
+        shield = FindObjectOfType<PlayerShield>();
+        player = FindObjectOfType<Player>();
     }
 
     private void Update()
@@ -23,9 +28,10 @@ public class PlayerAttack : MonoBehaviour
     
     void OnFire(InputValue value)
     {
-        
-        if(value.isPressed && timeSinceAttack > 0.25f)
+        if (shield.GetShieldState()) { return; }
+        if(value.isPressed && timeSinceAttack > attakSpeed)
         {
+            player.SetSpeedToZero();
             currentAttack++;
 
             // Loop back to one after third attack
@@ -42,6 +48,7 @@ public class PlayerAttack : MonoBehaviour
             // Reset timer
             timeSinceAttack = 0.0f;
         }
+        
     }
     
 }
