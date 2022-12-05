@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class PlayerAttackCollision : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] float playerDamage = 15f;
+    BossHealth bossHealth;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        bossHealth = FindObjectOfType<BossHealth>();
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Boss")
+        {
+            bossHealth.ReduceHealth(playerDamage);
+            Debug.Log("hitting boss");
+        }
     }
 }

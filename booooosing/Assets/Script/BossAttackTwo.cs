@@ -41,10 +41,9 @@ public class BossAttackTwo : MonoBehaviour
 
     public void StartAttack()
     {
-        if (patternOne)
-        {
-            StartCoroutine(AttackRate());
-        }
+        
+        StartCoroutine(AttackRate());
+        
     }
 
     float Randomize()
@@ -76,7 +75,7 @@ public class BossAttackTwo : MonoBehaviour
 
     public void Attacking()
     {
-        Debug.Log("Attacking");
+        //Debug.Log("Attacking");
         StartCoroutine(SetAttackState());   
     }
 

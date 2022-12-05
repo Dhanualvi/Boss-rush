@@ -17,7 +17,7 @@ public class BossAttack : MonoBehaviour
     [SerializeField] float fireRateInc = 0.02f;
     [SerializeField] bool reverse = false;
 
-    bool patternOne;
+    //bool patternOne;
     bool canShoot;
     [SerializeField] bool isAttacking;
    // bool patternTwo;
@@ -27,7 +27,7 @@ public class BossAttack : MonoBehaviour
     void Start()
     {
        
-        patternOne = true;
+        
         isAttacking = false;
         //patternTwo = false;
         canShoot = true;
@@ -42,10 +42,8 @@ public class BossAttack : MonoBehaviour
 
     public void StartAttack()
     {
-        if (patternOne)
-        {
-            StartCoroutine(AttackRate());
-        }
+        StartCoroutine(AttackRate());
+        
     }
 
 
@@ -78,7 +76,7 @@ public class BossAttack : MonoBehaviour
 
     public void Attacking()
     {
-        Debug.Log("Attacking");
+        //Debug.Log("Attacking");
         StartCoroutine(SetAttackState());   
     }
 
