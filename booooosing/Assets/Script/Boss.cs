@@ -6,25 +6,35 @@ public class Boss : MonoBehaviour
 {
     Animator myAnimator;
     [SerializeField] float startDelay = 2f;
+    [SerializeField] float attackCooldown = 4f;
+    [SerializeField] string bossName;   
     BossAttack attackOne;
+    PlayerDetector playerDetector;
     BossAttackTwo attackTwo;
+    PlayerDetectorTwo playerDetectorTwo;
     BossHealth health;
     Orb orb;
     bool canAttack;
+    bool isAttackingRight;
+    bool isAttackingLeft;
     [SerializeField]bool isAlive;
    
 
-    private void Start()
+    void Awake()
     {
         isAlive = true;
+        orb = FindObjectOfType<Orb>();
         attackOne = FindObjectOfType<BossAttack>();
         attackTwo = FindObjectOfType<BossAttackTwo>();
+        health = FindObjectOfType<BossHealth>();
+        playerDetector = FindObjectOfType<PlayerDetector>();
+        playerDetectorTwo = FindObjectOfType<PlayerDetectorTwo>();
         canAttack = false;
-        
+        isAttackingLeft = false;
+        isAttackingRight = false;
         myAnimator = GetComponent<Animator>();
         StartCoroutine(SetShootingState());
-        health = FindObjectOfType<BossHealth>();
-        orb = FindObjectOfType<Orb>();
+
     }
 
     private void Update()
@@ -38,7 +48,6 @@ public class Boss : MonoBehaviour
         if (!isAlive) { return; }
         if(health.UpdateBossMovement() == 1)
         {
-            
             orb.SetVisible(true);
         } 
         else if (health.UpdateBossMovement() == 2)
@@ -52,13 +61,21 @@ public class Boss : MonoBehaviour
         }
     }
     
+    public string GetBossName()
+    {
+        return bossName;
+    }
 
     public void BossAttack()
     {
+        isAttackingRight = true;
+        StartCoroutine(StartFireAttackCooldown());
         myAnimator.SetTrigger("isPlayerStepped");
     }
     public void BossAttackLeft()
     {
+        isAttackingLeft = true;
+        StartCoroutine(StartFireAttackCooldown());
         myAnimator.SetTrigger("isPlayerSteppedLeft");
     }
 
@@ -91,5 +108,22 @@ public class Boss : MonoBehaviour
         }
     }
 
-    
+    IEnumerator StartFireAttackCooldown()
+    {
+        if (isAttackingRight)
+        {
+            Debug.Log("Step");
+            playerDetector.SetVisible(false);
+            yield return new WaitForSeconds(attackCooldown);
+            playerDetector.SetVisible(true);
+            isAttackingRight = false;
+        }
+        if (isAttackingLeft)
+        {
+            playerDetectorTwo.SetVisible(false);
+            yield return new WaitForSeconds(attackCooldown);
+            playerDetectorTwo.SetVisible(true);
+            isAttackingLeft = false;
+        }
+    }
 }

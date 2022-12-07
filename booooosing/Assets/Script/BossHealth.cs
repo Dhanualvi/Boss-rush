@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 using TMPro;
 
 public class BossHealth : MonoBehaviour
 {
     [SerializeField] float bossHealth = 100f;
     [SerializeField] TextMeshProUGUI hpValueTxt;
+    [SerializeField] TextMeshProUGUI bossName;
     float currentHealth;
     float healthPercentage;
     int phase;
+
+    HealthBar healthBar;
     Boss boss;
     // Start is called before the first frame update
     void Start()
@@ -17,6 +21,8 @@ public class BossHealth : MonoBehaviour
         currentHealth = bossHealth;
         hpValueTxt.text = currentHealth.ToString();
         boss = FindObjectOfType<Boss>();
+        healthBar = FindObjectOfType<HealthBar>();
+        bossName.text = boss.GetBossName();
     }
 
     // Update is called once per frame
@@ -29,6 +35,8 @@ public class BossHealth : MonoBehaviour
     {
 
         healthPercentage = currentHealth / bossHealth * 100;
+        healthBar.UpdateHealthBar(healthPercentage);
+
         if(healthPercentage >= 0)
         {
             hpValueTxt.text = healthPercentage.ToString();
@@ -63,6 +71,7 @@ public class BossHealth : MonoBehaviour
         if(currentHealth > 0)
         {
             currentHealth -= damage;
+
             
             Debug.Log(currentHealth);
         }
@@ -71,7 +80,7 @@ public class BossHealth : MonoBehaviour
 
     public float GetCurrentHealth()
     {
-        return currentHealth;
+        return healthPercentage;
     }
     
 }

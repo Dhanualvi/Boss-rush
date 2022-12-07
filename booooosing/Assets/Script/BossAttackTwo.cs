@@ -17,7 +17,6 @@ public class BossAttackTwo : MonoBehaviour
     [SerializeField] float fireRateInc = 0.02f;
     [SerializeField] bool reverse = false;
 
-    bool patternOne;
     bool canShoot;
     [SerializeField] bool isAttacking;
    // bool patternTwo;
@@ -27,7 +26,7 @@ public class BossAttackTwo : MonoBehaviour
     void Start()
     {
        
-        patternOne = true;
+       
         isAttacking = false;
         //patternTwo = false;
         canShoot = true;
