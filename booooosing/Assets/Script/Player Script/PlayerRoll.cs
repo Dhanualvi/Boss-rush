@@ -9,7 +9,7 @@ public class PlayerRoll : MonoBehaviour
     PlayerShield shield;
     bool canRoll;
     bool isRolling;
-    [SerializeField] int rollStack = 3;
+    [SerializeField] float rollStack = 3f;
     [SerializeField] float rollCooldown = 6f;
 
     // Start is called before the first frame update
@@ -71,5 +71,10 @@ public class PlayerRoll : MonoBehaviour
             yield return new WaitForSeconds(0.7f);
             isRolling = false;
         }
+    }
+    
+    public float GetCurrentRollStack()
+    {
+        return rollStack;
     }
 }

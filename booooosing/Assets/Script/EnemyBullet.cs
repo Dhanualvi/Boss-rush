@@ -5,12 +5,16 @@ using UnityEngine;
 public class EnemyBullet : MonoBehaviour
 {
     private Vector2 moveDirection;
-    [SerializeField] private float moveSpeed = 5f;
+    Health health;
+    [SerializeField] float damage = 100f;
+    [SerializeField] private float moveSpeed = 3f;
 
 
 
-    void Start()
+
+    void Awake()
     {
+        health = FindObjectOfType<Health>();
         moveSpeed = 5f;
     }
 
@@ -32,6 +36,10 @@ public class EnemyBullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.tag == "Player")
+        {
+            health.ReduceHealth(damage);
+        }
         Destroy();
     }
 }

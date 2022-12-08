@@ -5,11 +5,13 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     Vector3 mousePos;
+    
+    
     Camera mainCam;
     [SerializeField] float speed = 1f;
     Rigidbody2D myRigidbody;
 
-    void Start()
+    void Awake()
     {
         mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         myRigidbody = GetComponent<Rigidbody2D>();
@@ -30,6 +32,7 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+       
         Destroy(gameObject);
     }
 }
