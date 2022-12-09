@@ -7,18 +7,20 @@ public class PlayerRoll : MonoBehaviour
 {
     Animator myAnimator;
     PlayerShield shield;
+    Player player;
     bool canRoll;
     bool isRolling;
     [SerializeField] float rollStack = 3f;
     [SerializeField] float rollCooldown = 6f;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         canRoll = true;
         isRolling = false;
         myAnimator = GetComponent<Animator>();
         shield = FindObjectOfType<PlayerShield>();
+        player = FindObjectOfType<Player>();
     }
 
     // Update is called once per frame
@@ -29,6 +31,7 @@ public class PlayerRoll : MonoBehaviour
 
     void OnRoll(InputValue value)
     {
+        if (!player.GetAliveStatus()) { return; }
         if (value.isPressed && !shield.GetShieldState() && !isRolling && rollStack > 0)
         {
             rollStack--;
@@ -77,4 +80,6 @@ public class PlayerRoll : MonoBehaviour
     {
         return rollStack;
     }
+
+    
 }

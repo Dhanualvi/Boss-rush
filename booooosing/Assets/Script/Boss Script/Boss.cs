@@ -5,9 +5,14 @@ using UnityEngine;
 public class Boss : MonoBehaviour
 {
     Animator myAnimator;
-    [SerializeField] float startDelay = 2f;
+    [SerializeField] float startDelay = 0.5f;
     [SerializeField] float attackCooldown = 4f;
-    [SerializeField] string bossName;   
+    [SerializeField] string bossName;
+    [SerializeField] float fireAttackDamage = 100f;
+    [SerializeField] float fireAttackRate = 0.5f;
+
+    float attackingTime;
+
     BossAttack attackOne;
     PlayerDetector playerDetector;
     BossAttackTwo attackTwo;
@@ -32,15 +37,18 @@ public class Boss : MonoBehaviour
         canAttack = false;
         isAttackingLeft = false;
         isAttackingRight = false;
+        attackingTime = 1.5f;
         myAnimator = GetComponent<Animator>();
-        StartCoroutine(SetShootingState());
+        //StartCoroutine(SetShootingState());
 
     }
 
     private void Update()
     {
-        SetCurrentPhase();
         Die();
+        if (!isAlive) { return; }
+        SetCurrentPhase();
+        
     }
 
     void SetCurrentPhase()
@@ -68,13 +76,17 @@ public class Boss : MonoBehaviour
 
     public void BossAttack()
     {
+        if (!isAlive) { return; }
         isAttackingRight = true;
+            
         StartCoroutine(StartFireAttackCooldown());
         myAnimator.SetTrigger("isPlayerStepped");
     }
     public void BossAttackLeft()
     {
+        if (!isAlive) { return; }
         isAttackingLeft = true;
+
         StartCoroutine(StartFireAttackCooldown());
         myAnimator.SetTrigger("isPlayerSteppedLeft");
     }
@@ -89,7 +101,7 @@ public class Boss : MonoBehaviour
         isAlive = state;
     }
 
-    IEnumerator SetShootingState()
+    IEnumerator SetAttackingState()
     {
         if (!canAttack)
         {
@@ -110,20 +122,47 @@ public class Boss : MonoBehaviour
 
     IEnumerator StartFireAttackCooldown()
     {
+
         if (isAttackingRight)
         {
-            Debug.Log("Step");
+            //Debug.Log("Step");
             playerDetector.SetVisible(false);
-            yield return new WaitForSeconds(attackCooldown);
-            playerDetector.SetVisible(true);
+            yield return new WaitForSeconds(attackingTime);
             isAttackingRight = false;
+            yield return new WaitForSeconds(attackCooldown);
+            canAttack = false;
+            playerDetector.SetVisible(true);
+            
         }
         if (isAttackingLeft)
         {
             playerDetectorTwo.SetVisible(false);
-            yield return new WaitForSeconds(attackCooldown);
-            playerDetectorTwo.SetVisible(true);
+            yield return new WaitForSeconds(attackingTime);
             isAttackingLeft = false;
+            yield return new WaitForSeconds(attackCooldown);
+            canAttack = false;
+            playerDetectorTwo.SetVisible(true);
+            
         }
+    }
+
+    
+    public bool GetAttackingState()
+    {
+        if(isAttackingLeft || isAttackingRight)
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    public float getFireDamage()
+    {
+        return fireAttackDamage;
+    }
+
+    public float getFireDamageRate()
+    {
+        return fireAttackRate;
     }
 }

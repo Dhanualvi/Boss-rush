@@ -15,7 +15,7 @@ public class PlayerAttack : MonoBehaviour
     Player player;
     [SerializeField] GameObject attackCollision;
 
-    private void Start()
+    private void Awake()
     {
         myAnimator = GetComponent<Animator>();
         shield = FindObjectOfType<PlayerShield>();
@@ -33,6 +33,7 @@ public class PlayerAttack : MonoBehaviour
     
     void OnFire(InputValue value)
     {
+        if (!player.GetAliveStatus()) { return; }
         if (shield.GetShieldState()) { return; }
         if(value.isPressed && timeSinceAttack > attackSpeed)
         {

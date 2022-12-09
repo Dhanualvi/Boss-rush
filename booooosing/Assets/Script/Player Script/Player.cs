@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,23 +16,29 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject child;
     Animator myAnimator;
     PlayerShield shield;
+    Health health;  
     bool isMoving;
+    bool isAlive;
 
     Vector2 rawIput;
     Rigidbody2D myRigidbody;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        isAlive = true;
         tempSpeed = speed;
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         shield = FindObjectOfType<PlayerShield>();
+        health = FindObjectOfType<Health>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        Die();
+        if (!isAlive) { return; }
         Run();
         FlipSprite();
     }
@@ -81,6 +88,24 @@ public class Player : MonoBehaviour
         
     }
 
+    public void Death()
+    {
+        if (!isAlive)
+        {
+            myAnimator.SetTrigger("Death");
+        }
+    }
+
+    public void Die()
+    {
+        if (health.GetCurrentHealth() <= 0)
+        {
+            isAlive = false;
+            
+            myAnimator.SetBool("isDead", true);
+        }
+    }
+
     public bool GetMovingState()
     {
         return isMoving;
@@ -93,5 +118,14 @@ public class Player : MonoBehaviour
     public void SetSpeedToNormal()
     {
         speed = tempSpeed;
+    }
+
+    public void SetAliveStatus(bool state)
+    {
+        isAlive = state;
+    }
+    public bool GetAliveStatus()
+    {
+        return isAlive;
     }
 }

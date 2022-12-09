@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 57361848}
   - component: {fileID: 57361851}
   - component: {fileID: 57361850}
-  - component: {fileID: 57361849}
+  - component: {fileID: 3587394962891611895}
   m_Layer: 6
   m_Name: Player Damager (1)
   m_TagString: Untagged
@@ -96,7 +96,7 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -114,7 +114,7 @@ PolygonCollider2D:
     - - {x: 0, y: 0.5773587}
       - {x: -0.5, y: -0.28866667}
       - {x: 0.5, y: -0.28866667}
---- !u!114 &57361849
+--- !u!114 &3587394962891611895
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,7 +123,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 57361847}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d621bf8c14880242ade035077e47abd, type: 3}
+  m_Script: {fileID: 11500000, guid: 66fa8723b8cb121409c793873b9ecf96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1396903661
@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 1396903662}
   - component: {fileID: 1396903665}
   - component: {fileID: 1396903664}
-  - component: {fileID: 1396903663}
+  - component: {fileID: 2317112531011204413}
   m_Layer: 6
   m_Name: Player Damager
   m_TagString: Untagged
@@ -222,7 +222,7 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -240,7 +240,7 @@ PolygonCollider2D:
     - - {x: 0, y: 0.5773587}
       - {x: -0.5, y: -0.28866667}
       - {x: 0.5, y: -0.28866667}
---- !u!114 &1396903663
+--- !u!114 &2317112531011204413
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -249,7 +249,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1396903661}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a5687b8ee1e1fe40bea199fe076fad4, type: 3}
+  m_Script: {fileID: 11500000, guid: 66fa8723b8cb121409c793873b9ecf96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &473312210190717754

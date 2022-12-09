@@ -9,9 +9,18 @@ public class Health : MonoBehaviour
     float currentHealth;
     float healthPercentage;
     [SerializeField] HealthBar healthBar;
+
+    Player player;
+    PlayerRoll playerRoll;
+    PlayerShield playerShield;
+    Animator myAnimator;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        playerRoll = FindObjectOfType<PlayerRoll>();
+        player = FindObjectOfType<Player>();
+        playerShield = FindObjectOfType<PlayerShield>();
+        myAnimator = GetComponent<Animator>();
         currentHealth = playerHealth;
         UpdateHealth();
     }
@@ -30,12 +39,22 @@ public class Health : MonoBehaviour
 
     public void ReduceHealth(float damage)
     {
-        if (currentHealth > 0)
+        if(playerRoll.GetRollingState() || playerShield.GetShieldState()) { return; }
+        if (currentHealth > 0 )
         {
+         
             currentHealth -= damage;
             UpdateHealth();
             Debug.Log(currentHealth);
         }
-
+       
     }
+    //(!playerRoll.GetRollingState() || !playerShield.GetShieldState())
+
+    public float GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+
 }

@@ -32,6 +32,7 @@ public class PlayerShield : MonoBehaviour
     }
     void OnShield(InputValue value)
     {
+        if (!player.GetAliveStatus()) { return; }
         if (value.isPressed && !isShielded && canShield)
         {
             //shieldCooldownIcon.UpdateShieldCooldown();
@@ -58,10 +59,12 @@ public class PlayerShield : MonoBehaviour
         {
             canShield = false;
             isShielded = true;
+            Debug.Log("Shielded : " + isShielded);
             myAnimator.SetBool("isHoldingShield", isShielded);
             
             yield return new WaitForSeconds(shieldDuratoion);
             isShielded = false;
+            Debug.Log("Shielded : " + isShielded);
             myAnimator.SetBool("isHoldingShield", isShielded);
         }
     }
