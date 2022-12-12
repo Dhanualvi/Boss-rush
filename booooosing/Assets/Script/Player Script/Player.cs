@@ -9,11 +9,11 @@ public class Player : MonoBehaviour
 {
     [SerializeField] float speed = 10f;
     float tempSpeed;
-    
+
     //[SerializeField] float aspd = 1f;
     //[SerializeField] GameObject bullet;
     //[SerializeField] Transform gunPoint;
-    [SerializeField] GameObject child;
+    
     Animator myAnimator;
     PlayerShield shield;
     Health health;  

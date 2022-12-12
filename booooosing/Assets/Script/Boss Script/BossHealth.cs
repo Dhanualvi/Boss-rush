@@ -16,10 +16,11 @@ public class BossHealth : MonoBehaviour
     HealthBar healthBar;
     Boss boss;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         currentHealth = bossHealth;
-        hpValueTxt.text = currentHealth.ToString();
+        healthPercentage = currentHealth / bossHealth * 100;
+        //hpValueTxt.text = currentHealth.ToString();
         boss = FindObjectOfType<Boss>();
         healthBar = FindObjectOfType<HealthBar>();
         bossName.text = boss.GetBossName();
@@ -80,6 +81,7 @@ public class BossHealth : MonoBehaviour
 
     public float GetCurrentHealth()
     {
+
         return healthPercentage;
     }
     
