@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     [SerializeField] float speed = 10f;
+    [SerializeField] float damage = 10f;
     float tempSpeed;
 
     //[SerializeField] float aspd = 1f;
@@ -127,5 +128,10 @@ public class Player : MonoBehaviour
     public bool GetAliveStatus()
     {
         return isAlive;
+    }
+
+    public float GetDamage()
+    {
+        return damage;
     }
 }

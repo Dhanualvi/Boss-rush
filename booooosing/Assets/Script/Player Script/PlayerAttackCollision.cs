@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class PlayerAttackCollision : MonoBehaviour
 {
-    [SerializeField] float playerDamage = 15f;
+    Player player;
     BossHealth bossHealth;
 
-    private void Start()
+    private void Awake()
     {
         bossHealth = FindObjectOfType<BossHealth>();
+        player = FindObjectOfType<Player>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Boss")
         {
-            bossHealth.ReduceHealth(playerDamage);
-            Debug.Log("hitting boss");
+            bossHealth.ReduceHealth(player.GetDamage());
+            //Debug.Log("hitting boss");
         }
     }
 }

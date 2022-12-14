@@ -2,21 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDamager : MonoBehaviour
+public class FlameDamage : MonoBehaviour
 {
-    
-    //[SerializeField] float attackRate = 1f;
-
-    bool canAttack;
-
     Boss boss;
     Health health;
+    bool canAttack;
     // Start is called before the first frame update
     void Awake()
     {
         boss = FindObjectOfType<Boss>();
         health = FindObjectOfType<Health>();
-        canAttack = false;
+        canAttack = true;
     }
 
     // Update is called once per frame
@@ -30,25 +26,17 @@ public class PlayerDamager : MonoBehaviour
         if(collision.tag == "Player")
         {
             StartCoroutine(StartAttack());
-           
-            //damage to player with firerate
-            
         }
     }
-
+    
     IEnumerator StartAttack()
     {
-        if (boss.GetAttackingState() && !canAttack)
+        if (canAttack)
         {
-            //boss.EyeFlash();
-            canAttack = true;
-            //Debug.Log("Attack");
-            
-            yield return new WaitForSeconds(boss.GetFireDamageRate());
-            health.ReduceHealth(boss.GetFireDamage());
-            //Debug.Log("Wait");
-
             canAttack = false;
+            yield return new WaitForSeconds(0.35f);
+            health.ReduceHealth(boss.GetFlameWallDamage());
+            canAttack = true;
         }
         
     }

@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4689752220904088198}
   - component: {fileID: 6094994487276768208}
-  m_Layer: 0
+  - component: {fileID: 1190749587}
+  m_Layer: 15
   m_Name: Attack Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,6 +59,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.1836061, y: 0.7178545}
   m_EdgeRadius: 0
+--- !u!114 &1190749587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7657973648081977380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db9adf78502bd674b8b68563dd78183a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerDamage: 500
 --- !u!1 &8237259229507906289
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,7 +154,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: c8a75b632ac70fc4fa480566038c5a5c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -194,8 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c0cf45380fb5cc4ba8b2922a1923bc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  child: {fileID: 0}
+  speed: 7.5
 --- !u!50 &8237259229507906290
 Rigidbody2D:
   serializedVersion: 4
@@ -265,6 +278,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a3aaa6a90bc5f4d914e332d835c9ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHealth: 50000
+  healthBar: {fileID: 0}
 --- !u!114 &533150855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,7 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0c66ed12ac82374f96c591f7995faa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attakSpeed: 0.5
+  attackSpeed: 0.5
   attackCollision: {fileID: 7657973648081977380}
 --- !u!114 &761838273720816096
 MonoBehaviour:
@@ -291,8 +306,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50feaa31974ac46429083d675d69b501, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shieldDuratoion: 2.5
-  shieldCooldown: 5
+  shieldDuratoion: 3
+  shieldCooldown: 7
 --- !u!114 &1718829029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,4 +321,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rollStack: 3
-  rollCooldown: 3.5
+  rollCooldown: 5

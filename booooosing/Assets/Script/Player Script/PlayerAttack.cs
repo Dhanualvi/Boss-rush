@@ -12,6 +12,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] float attackSpeed = 0.5f;
     Animator myAnimator;
     PlayerShield  shield;
+    PlayerRoll roll;
     Player player;
     [SerializeField] GameObject attackCollision;
 
@@ -19,6 +20,7 @@ public class PlayerAttack : MonoBehaviour
     {
         myAnimator = GetComponent<Animator>();
         shield = FindObjectOfType<PlayerShield>();
+        roll = FindObjectOfType<PlayerRoll>();
         player = FindObjectOfType<Player>();
         
         isAttacking = false;
@@ -35,6 +37,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (!player.GetAliveStatus()) { return; }
         if (shield.GetShieldState()) { return; }
+        if(roll.GetRollingState()) { return; }  
         if(value.isPressed && timeSinceAttack > attackSpeed)
         {
             

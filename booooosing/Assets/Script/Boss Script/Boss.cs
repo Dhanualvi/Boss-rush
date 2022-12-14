@@ -10,6 +10,7 @@ public class Boss : MonoBehaviour
     [SerializeField] string bossName;
     [SerializeField] float fireAttackDamage = 100f;
     [SerializeField] float fireAttackRate = 0.5f;
+    [SerializeField] float flameWallDamage = 400f;
 
     float attackingTime;
 
@@ -19,15 +20,23 @@ public class Boss : MonoBehaviour
     PlayerDetectorTwo playerDetectorTwo;
     BossHealth health;
     Orb orb;
+    
     bool canAttack;
     bool isAttackingRight;
     bool isAttackingLeft;
+    bool flashAvailable;
+
     [SerializeField]bool isAlive;
-   
+
+    [SerializeField] GameObject flameAttackDetector;
+    [SerializeField] GameObject eyeFlash;
+    [SerializeField] GameObject eyeLocation;
 
     void Awake()
     {
+        flameAttackDetector.SetActive(false);
         isAlive = true;
+        flashAvailable = true;
         orb = FindObjectOfType<Orb>();
         attackOne = FindObjectOfType<BossAttack>();
         attackTwo = FindObjectOfType<BossAttackTwo>();
@@ -66,6 +75,7 @@ public class Boss : MonoBehaviour
         {
             attackOne.StartAttack();
             attackTwo.StartAttack();
+            flameAttackDetector.SetActive(true);
         }
     }
     
@@ -126,27 +136,54 @@ public class Boss : MonoBehaviour
         if (isAttackingRight)
         {
             //Debug.Log("Step");
+            EyeFlash();
+            yield return new WaitForSeconds(0.6f);
+            flashAvailable = true;
             playerDetector.SetVisible(false);
+            playerDetectorTwo.SetVisible(false);
             yield return new WaitForSeconds(attackingTime);
             isAttackingRight = false;
             yield return new WaitForSeconds(attackCooldown);
             canAttack = false;
             playerDetector.SetVisible(true);
-            
+            playerDetectorTwo.SetVisible(true);
+
         }
         if (isAttackingLeft)
         {
+            EyeFlash();
+            yield return new WaitForSeconds(0.6f);
+            flashAvailable = true;
             playerDetectorTwo.SetVisible(false);
+            playerDetector.SetVisible(false);
             yield return new WaitForSeconds(attackingTime);
             isAttackingLeft = false;
             yield return new WaitForSeconds(attackCooldown);
             canAttack = false;
             playerDetectorTwo.SetVisible(true);
-            
+            playerDetector.SetVisible(true);
+
         }
     }
 
-    
+    public void EyeFlash()
+    {
+        Vector3 spawnPosition;
+        spawnPosition = eyeLocation.transform.position;
+        
+        if(eyeFlash != null && flashAvailable)
+        {
+            GameObject flash = Instantiate(eyeFlash, spawnPosition, gameObject.transform.localRotation) as GameObject;
+            Destroy(flash, 0.44f);
+            flashAvailable = false;
+        }
+    }
+
+    public void SetFlashAvailable(bool state )
+    {
+        flashAvailable = state;
+    }
+
     public bool GetAttackingState()
     {
         if(isAttackingLeft || isAttackingRight)
@@ -156,13 +193,19 @@ public class Boss : MonoBehaviour
         return false;
     }
     
-    public float getFireDamage()
+    public float GetFireDamage()
     {
         return fireAttackDamage;
     }
 
-    public float getFireDamageRate()
+    public float GetFireDamageRate()
     {
         return fireAttackRate;
     }
+
+    public float GetFlameWallDamage()
+    {
+        return flameWallDamage;
+    }
+
 }

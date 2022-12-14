@@ -58,11 +58,16 @@ public class BossHealth : MonoBehaviour
             //Debug.Log("Phase 2 is started");
             phase = 2;
         }
-        else if(healthPercentage >= 0f && healthPercentage < 50f)
+        else if(healthPercentage >= 25f && healthPercentage < 50f)
         {
             //Debug.Log("Phase 3 is started");
             phase = 3;
         }
+        else if(healthPercentage >= 0f && healthPercentage < 25f)
+        {
+            phase = 4;
+        }
+        
         return phase;
     }
 
