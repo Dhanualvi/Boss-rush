@@ -5,7 +5,7 @@ using UnityEngine;
 public class Boss : MonoBehaviour
 {
     Animator myAnimator;
-    [SerializeField] float startDelay = 0.5f;
+    [SerializeField] float attackDelay = 0.5f;
     [SerializeField] float attackCooldown = 4f;
     [SerializeField] string bossName;
     [SerializeField] float fireAttackDamage = 100f;
@@ -75,6 +75,10 @@ public class Boss : MonoBehaviour
         {
             attackOne.StartAttack();
             attackTwo.StartAttack();
+            
+        }
+        else if (health.UpdateBossMovement() == 4)
+        {
             flameAttackDetector.SetActive(true);
         }
     }
@@ -90,7 +94,7 @@ public class Boss : MonoBehaviour
         isAttackingRight = true;
             
         StartCoroutine(StartFireAttackCooldown());
-        myAnimator.SetTrigger("isPlayerStepped");
+        
     }
     public void BossAttackLeft()
     {
@@ -98,7 +102,7 @@ public class Boss : MonoBehaviour
         isAttackingLeft = true;
 
         StartCoroutine(StartFireAttackCooldown());
-        myAnimator.SetTrigger("isPlayerSteppedLeft");
+        
     }
 
     public bool GetAliveState()
@@ -111,14 +115,14 @@ public class Boss : MonoBehaviour
         isAlive = state;
     }
 
-    IEnumerator SetAttackingState()
+    /*IEnumerator SetAttackingState()
     {
         if (!canAttack)
         {
             yield return new WaitForSeconds(startDelay);
             canAttack = true;
         }
-    }
+    }*/
 
     public void Die()
     {
@@ -137,10 +141,11 @@ public class Boss : MonoBehaviour
         {
             //Debug.Log("Step");
             EyeFlash();
-            yield return new WaitForSeconds(0.6f);
+            yield return new WaitForSeconds(attackDelay);
             flashAvailable = true;
             playerDetector.SetVisible(false);
             playerDetectorTwo.SetVisible(false);
+            myAnimator.SetTrigger("isPlayerStepped");
             yield return new WaitForSeconds(attackingTime);
             isAttackingRight = false;
             yield return new WaitForSeconds(attackCooldown);
@@ -152,10 +157,11 @@ public class Boss : MonoBehaviour
         if (isAttackingLeft)
         {
             EyeFlash();
-            yield return new WaitForSeconds(0.6f);
+            yield return new WaitForSeconds(attackDelay);
             flashAvailable = true;
             playerDetectorTwo.SetVisible(false);
             playerDetector.SetVisible(false);
+            myAnimator.SetTrigger("isPlayerSteppedLeft");
             yield return new WaitForSeconds(attackingTime);
             isAttackingLeft = false;
             yield return new WaitForSeconds(attackCooldown);

@@ -6,6 +6,8 @@ public class PlayerAttackCollision : MonoBehaviour
 {
     Player player;
     BossHealth bossHealth;
+    [SerializeField] GameObject hitEffectSpawnPoint;
+    [SerializeField] ParticleSystem hitEffect;
 
     private void Awake()
     {
@@ -16,6 +18,7 @@ public class PlayerAttackCollision : MonoBehaviour
     {
         if(collision.tag == "Boss")
         {
+            Instantiate(hitEffect,hitEffectSpawnPoint.transform.position, hitEffectSpawnPoint.transform.rotation);
             bossHealth.ReduceHealth(player.GetDamage());
             //Debug.Log("hitting boss");
         }

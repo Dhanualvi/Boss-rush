@@ -26,6 +26,7 @@ public class PlayerDetectorThree : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if (!boss.GetAliveState()) { return; }
         timerValue += Time.deltaTime;
 
         if (collision.tag == "Player")
@@ -48,7 +49,7 @@ public class PlayerDetectorThree : MonoBehaviour
     IEnumerator StartFlash()
     {
         boss.EyeFlash();
-        yield return new WaitForSeconds(0.44f);
+        yield return new WaitForSeconds(1f);
         boss.SetFlashAvailable(false);
         canAttack = true;
     }

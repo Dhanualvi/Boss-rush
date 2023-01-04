@@ -14,6 +14,7 @@ public class PlayerAttack : MonoBehaviour
     PlayerShield  shield;
     PlayerRoll roll;
     Player player;
+    Health health;
     [SerializeField] GameObject attackCollision;
 
     private void Awake()
@@ -22,7 +23,7 @@ public class PlayerAttack : MonoBehaviour
         shield = FindObjectOfType<PlayerShield>();
         roll = FindObjectOfType<PlayerRoll>();
         player = FindObjectOfType<Player>();
-        
+        health = FindObjectOfType<Health>();
         isAttacking = false;
     }
 
@@ -33,12 +34,12 @@ public class PlayerAttack : MonoBehaviour
 
    
     
-    void OnFire(InputValue value)
+    public void OnSlash()
     {
-        if (!player.GetAliveStatus()) { return; }
+        if (!health.GetIsAliveState()) { return; }
         if (shield.GetShieldState()) { return; }
         if(roll.GetRollingState()) { return; }  
-        if(value.isPressed && timeSinceAttack > attackSpeed)
+        if(timeSinceAttack > attackSpeed)
         {
             
             currentAttack++;

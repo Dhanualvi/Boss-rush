@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Dependencies.Sqlite;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +6,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] float speed = 10f;
     [SerializeField] float damage = 10f;
+    [SerializeField] float shieldingSpeed = 1f;
     float tempSpeed;
 
     //[SerializeField] float aspd = 1f;
@@ -33,18 +31,16 @@ public class Player : MonoBehaviour
         myAnimator = GetComponent<Animator>();
         shield = FindObjectOfType<PlayerShield>();
         health = FindObjectOfType<Health>();
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        Die();
-        if (!isAlive) { return; }
-        Run();
-        FlipSprite();
+        Death();
     }
 
-    void OnMove(InputValue value)
+    /*void OnMove(InputValue value)
     {
         rawIput = value.Get<Vector2>();
     }
@@ -87,21 +83,21 @@ public class Player : MonoBehaviour
             
         }
         
-    }
+    }*/
 
-    public void Death()
+    void Death()
     {
-        if (!isAlive)
+        if (!health.GetIsAliveState())
         {
+
             myAnimator.SetTrigger("Death");
         }
     }
 
     public void Die()
     {
-        if (health.GetCurrentHealth() <= 0)
+        if (!health.GetIsAliveState())
         {
-            isAlive = false;
             
             myAnimator.SetBool("isDead", true);
         }
@@ -114,24 +110,28 @@ public class Player : MonoBehaviour
 
     public void SetSpeedToZero()
     {
-        speed = 0f;
+        speed = shieldingSpeed;
     }
     public void SetSpeedToNormal()
     {
         speed = tempSpeed;
     }
 
-    public void SetAliveStatus(bool state)
+    /*public void SetAliveStatus(bool state)
     {
         isAlive = state;
-    }
-    public bool GetAliveStatus()
+    }*/
+    /*public bool GetAliveStatus()
     {
         return isAlive;
-    }
+    }*/
 
     public float GetDamage()
     {
         return damage;
+    }
+    public float GetSpeed()
+    {
+        return speed;
     }
 }

@@ -8,6 +8,7 @@ public class Health : MonoBehaviour
     [SerializeField] float playerHealth = 5000f;
     float currentHealth;
     float healthPercentage;
+    bool isAlive;
     [SerializeField] HealthBar healthBar;
 
     Player player;
@@ -17,6 +18,7 @@ public class Health : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        isAlive = true;
         playerRoll = FindObjectOfType<PlayerRoll>();
         player = FindObjectOfType<Player>();
         playerShield = FindObjectOfType<PlayerShield>();
@@ -28,7 +30,7 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        SetIsAlive();
     }
 
     void UpdateHealth()
@@ -47,7 +49,8 @@ public class Health : MonoBehaviour
             UpdateHealth();
             Debug.Log(currentHealth);
         }
-       
+        
+
     }
     //(!playerRoll.GetRollingState() || !playerShield.GetShieldState())
 
@@ -56,5 +59,18 @@ public class Health : MonoBehaviour
         return currentHealth;
     }
 
+    void SetIsAlive()
+    {
+        if (currentHealth <= 0)
+        {
+            isAlive = false;
+           
+        }
+    }
+
+    public bool GetIsAliveState()
+    {
+        return isAlive;
+    }
 
 }

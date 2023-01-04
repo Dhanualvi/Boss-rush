@@ -6,37 +6,43 @@ using UnityEngine.InputSystem;
 
 public class PlayerShield : MonoBehaviour
 {
-    [SerializeField] float shieldDuratoion = 2.5f;
+    [SerializeField] float shieldDuration = 2.5f;
     [SerializeField] float shieldCooldown = 7f;
-   ShieldCooldownIcon shieldCooldownIcon;
+    
+    SkillCooldown skillCooldownIcon;
     bool isShielded;
     bool canShield;
+    float fixedShieldDuration;
     Animator myAnimator;
     Player player;
+    Health health;
 
     void Awake()
     {
-        shieldCooldownIcon = FindObjectOfType<ShieldCooldownIcon>();
+        skillCooldownIcon = FindObjectOfType<SkillCooldown>();
         isShielded = false;
         canShield = true;
         myAnimator = GetComponent<Animator>();
         player = GetComponent<Player>();
+        health = FindObjectOfType<Health>();
+        fixedShieldDuration = shieldDuration;
     }
 
     private void Update()
     {
         if (!canShield )
         {
-            shieldCooldownIcon.UpdateShieldCooldown(shieldCooldown);
+            skillCooldownIcon.UpdateSkillCooldown(shieldCooldown);
         }
     }
-    void OnShield(InputValue value)
+    public void OnShield()
     {
-        if (!player.GetAliveStatus()) { return; }
-        if (value.isPressed && !isShielded && canShield)
+        if (!health.GetIsAliveState()) { return; }
+        if ( !isShielded && canShield)
         {
             //shieldCooldownIcon.UpdateShieldCooldown();
             myAnimator.SetTrigger("Shield");
+            
             StartCoroutine(SetShieldedState());
             StartCoroutine(StartShieldCooldown());
         }
@@ -62,7 +68,7 @@ public class PlayerShield : MonoBehaviour
             Debug.Log("Shielded : " + isShielded);
             myAnimator.SetBool("isHoldingShield", isShielded);
             
-            yield return new WaitForSeconds(shieldDuratoion);
+            yield return new WaitForSeconds(shieldDuration);
             isShielded = false;
             Debug.Log("Shielded : " + isShielded);
             myAnimator.SetBool("isHoldingShield", isShielded);
@@ -75,7 +81,7 @@ public class PlayerShield : MonoBehaviour
         {
             
             yield return new WaitForSeconds(shieldCooldown);
-            shieldCooldownIcon.ResetTimerValue();
+            skillCooldownIcon.ResetTimerValue();
             Debug.Log("Shield is ready");
             canShield = true;
         }
@@ -89,5 +95,10 @@ public class PlayerShield : MonoBehaviour
     public bool GetCanShield()
     {
         return canShield;
+    }
+
+    public float GetShieldDuration()
+    {
+        return fixedShieldDuration;
     }
 }

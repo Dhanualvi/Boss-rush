@@ -6,13 +6,15 @@ public class OrbDamage : MonoBehaviour
 {
 
     [SerializeField] float damage = 200f;
-    CapsuleCollider2D myCapsuleCollider;
+    [SerializeField] ParticleSystem onHitEffect;
     Health health;
+    Boss boss;
     // Start is called before the first frame update
     void Awake()
     {
-        myCapsuleCollider = GetComponent<CapsuleCollider2D>();
+        
         health = FindObjectOfType<Health>();
+        boss = FindObjectOfType<Boss>();
     }
 
     // Update is called once per frame
@@ -23,8 +25,11 @@ public class OrbDamage : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!boss.GetAliveState()) { return; }
         if(collision.tag == "Player")
         {
+            
+            Instantiate(onHitEffect, transform.position, transform.rotation);
             health.ReduceHealth(damage);
         }
     }

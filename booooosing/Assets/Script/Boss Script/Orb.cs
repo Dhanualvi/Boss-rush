@@ -28,6 +28,6 @@ public class Orb : MonoBehaviour
 
     void RotateOrb()
     {
-        transform.Rotate(0f, 0f, rotateSpeed);
+        transform.Rotate(0f, 0f, rotateSpeed * Time.deltaTime);
     }
 }

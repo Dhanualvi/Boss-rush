@@ -8,7 +8,9 @@ public class EnemyBullet : MonoBehaviour
     Health health;
     [SerializeField] float damage = 100f;
     [SerializeField] private float moveSpeed = 3f;
+    [SerializeField] ParticleSystem onHitEffect;
 
+    
 
 
 
@@ -31,6 +33,7 @@ public class EnemyBullet : MonoBehaviour
 
     private void Destroy()
     {
+        Instantiate(onHitEffect, transform.position, transform.rotation);
         gameObject.SetActive(false);
     }
 

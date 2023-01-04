@@ -8,6 +8,7 @@ public class PlayerRoll : MonoBehaviour
     Animator myAnimator;
     PlayerShield shield;
     Player player;
+    Health health;
     bool canRoll;
     bool isRolling;
     [SerializeField] float rollStack = 3f;
@@ -21,6 +22,7 @@ public class PlayerRoll : MonoBehaviour
         myAnimator = GetComponent<Animator>();
         shield = FindObjectOfType<PlayerShield>();
         player = FindObjectOfType<Player>();
+        health = FindObjectOfType<Health>();
     }
 
     // Update is called once per frame
@@ -29,10 +31,10 @@ public class PlayerRoll : MonoBehaviour
         
     }
 
-    void OnRoll(InputValue value)
+    public void OnRoll()
     {
-        if (!player.GetAliveStatus()) { return; }
-        if (value.isPressed && !shield.GetShieldState() && !isRolling && rollStack > 0)
+        if (!health.GetIsAliveState()) { return; }
+        if (!shield.GetShieldState() && !isRolling && rollStack > 0)
         {
             rollStack--;
             Debug.Log("Roll Stack: " + rollStack);

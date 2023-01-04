@@ -13,8 +13,9 @@ public class BossHealth : MonoBehaviour
     float healthPercentage;
     int phase;
 
-    HealthBar healthBar;
+    BossHealthBar healthBar;
     Boss boss;
+    BossHealthBar bossHealthBar;
     // Start is called before the first frame update
     void Awake()
     {
@@ -22,7 +23,8 @@ public class BossHealth : MonoBehaviour
         healthPercentage = currentHealth / bossHealth * 100;
         //hpValueTxt.text = currentHealth.ToString();
         boss = FindObjectOfType<Boss>();
-        healthBar = FindObjectOfType<HealthBar>();
+        healthBar = FindObjectOfType<BossHealthBar>();
+        bossHealthBar = FindObjectOfType<BossHealthBar>();
         bossName.text = boss.GetBossName();
     }
 
@@ -78,8 +80,8 @@ public class BossHealth : MonoBehaviour
         {
             currentHealth -= damage;
 
-            
-            Debug.Log(currentHealth);
+            bossHealthBar.startFlash();
+            //Debug.Log(currentHealth);
         }
       
     }
